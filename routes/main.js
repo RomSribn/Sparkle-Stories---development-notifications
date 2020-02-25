@@ -22,8 +22,24 @@ router.post("/auth", check, ctx => {
   return AppModule.authCheck(ctx);
 });
 
-router.get("/ping", ctx => {
-  return AppModule.get(ctx);
+router.post("/netlify/started", ctx => {
+  return AppModule.netlifyStarted(ctx);
+});
+
+router.post("/netlify/succeeded", ctx => {
+  return AppModule.netlifySucceeded(ctx);
+});
+
+router.post("/netlify/failed", ctx => {
+  return AppModule.netlifyFailed(ctx);
+});
+
+router.post("/netlify/locked", ctx => {
+  return AppModule.netlifyLocked(ctx);
+});
+
+router.post("/netlify/unlocked", ctx => {
+  return AppModule.netlifyUnlocked(ctx);
 });
 
 module.exports = router;
