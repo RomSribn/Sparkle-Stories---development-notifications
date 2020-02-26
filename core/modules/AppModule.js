@@ -2,10 +2,24 @@ const { chatId } = require("config");
 const Response = require("core/Response");
 const telegramMain = require("telegram/main");
 
+const notificationMessage = (ctx, status) => {
+  const statusMessages = {
+    started: "deploy started",
+    succeeded: "deploy succeeded",
+    failed: "deploy failed",
+    locked: "deploy locked",
+    unlocked: "deploy unlocked"
+  };
+  return `( ${ctx.name}/${ctx.branch} ) *${statusMessages[status]}*`;
+};
+
 class AppModule {
   async netlifyStarted(ctx) {
     try {
-      telegramMain.telegram.sendMessage(chatId, "*Test deploy started*");
+      telegramMain.telegram.sendMessage(
+        chatId,
+        notificationMessage(ctx.request.body, "started")
+      );
       return Response.json(ctx, 200);
     } catch (error) {
       telegramMain.telegram.sendMessage(
@@ -18,7 +32,10 @@ class AppModule {
 
   async netlifySucceeded(ctx) {
     try {
-      telegramMain.telegram.sendMessage(chatId, "*Test deploy is succeeded*");
+      telegramMain.telegram.sendMessage(
+        chatId,
+        notificationMessage(ctx.request.body, "succeeded")
+      );
       return Response.json(ctx, 200);
     } catch (error) {
       telegramMain.telegram.sendMessage(
@@ -31,7 +48,10 @@ class AppModule {
 
   async netlifyFailed(ctx) {
     try {
-      telegramMain.telegram.sendMessage(chatId, "*Test deploy failed*");
+      telegramMain.telegram.sendMessage(
+        chatId,
+        notificationMessage(ctx.request.body, "failed")
+      );
       return Response.json(ctx, 200);
     } catch (error) {
       telegramMain.telegram.sendMessage(
@@ -44,7 +64,10 @@ class AppModule {
 
   async netlifyLocked(ctx) {
     try {
-      telegramMain.telegram.sendMessage(chatId, "*Test deploy locked*");
+      telegramMain.telegram.sendMessage(
+        chatId,
+        notificationMessage(ctx.request.body, "locked")
+      );
       return Response.json(ctx, 200);
     } catch (error) {
       telegramMain.telegram.sendMessage(
@@ -57,7 +80,10 @@ class AppModule {
 
   async netlifyUnlocked(ctx) {
     try {
-      telegramMain.telegram.sendMessage(chatId, "*Test deploy unlocked*");
+      telegramMain.telegram.sendMessage(
+        chatId,
+        notificationMessage(ctx.request.body, "unlocked")
+      );
       return Response.json(ctx, 200);
     } catch (error) {
       telegramMain.telegram.sendMessage(
